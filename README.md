@@ -4,6 +4,39 @@ A production-grade proof-of-concept demonstrating the canonical pattern of using
 
 ---
 
+## Quick Start
+
+### Option A — Full Docker stack (recommended)
+
+```bash
+make docker-up
+```
+
+Starts **MySQL 8.4**, **Redis 7.4**, **RedisInsight**, and the **Spring Boot app** together.
+
+| Service | URL |
+|---|---|
+| API | http://localhost:8080/api/swagger-ui.html |
+| RedisInsight | http://localhost:5540 |
+| Actuator health | http://localhost:8080/api/actuator/health |
+
+### Option B — Infrastructure only, app runs locally
+
+```bash
+make docker-infra   # starts MySQL + Redis + RedisInsight
+make run            # runs Spring Boot via mvn spring-boot:run
+```
+
+Requires environment variables or defaults in `application.yml`:
+
+```
+MYSQL_HOST=localhost  MYSQL_PORT=3306  MYSQL_DB=redispoc
+MYSQL_USER=root       MYSQL_PASSWORD=secret
+REDIS_HOST=localhost  REDIS_PORT=6379
+```
+
+---
+
 ## Tech Stack
 
 | Component | Version |
@@ -131,39 +164,6 @@ To clearly observe performance differences between cache hits, cache misses, and
 * **Redis Cache Operations**: Custom `LoggingRedisCacheWriter` logs cache hits, misses, puts, evictions, and patterns with microsecond/millisecond latency (e.g. `[REDIS] Cache HIT | latency=0.79 ms (786 µs)`).
 * **Database Operations**: `ProductService` logs exact execution times for SQL `SELECT`, `INSERT`, `UPDATE`, and `DELETE` statements (e.g. `[DATABASE] SELECT product by id=1 | latency=11.14 ms`).
 * **Atomic Redis Ops**: `INCR` and `GET` counters log direct RedisTemplate round-trip latency.
-
----
-
-## Quick Start
-
-### Option A — Full Docker stack (recommended)
-
-```bash
-make docker-up
-```
-
-Starts **MySQL 8.4**, **Redis 7.4**, **RedisInsight**, and the **Spring Boot app** together.
-
-| Service | URL |
-|---|---|
-| API | http://localhost:8080/api/swagger-ui.html |
-| RedisInsight | http://localhost:5540 |
-| Actuator health | http://localhost:8080/api/actuator/health |
-
-### Option B — Infrastructure only, app runs locally
-
-```bash
-make docker-infra   # starts MySQL + Redis + RedisInsight
-make run            # runs Spring Boot via mvn spring-boot:run
-```
-
-Requires environment variables or defaults in `application.yml`:
-
-```
-MYSQL_HOST=localhost  MYSQL_PORT=3306  MYSQL_DB=redispoc
-MYSQL_USER=root       MYSQL_PASSWORD=secret
-REDIS_HOST=localhost  REDIS_PORT=6379
-```
 
 ---
 
