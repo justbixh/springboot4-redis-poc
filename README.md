@@ -6,6 +6,22 @@ A production-grade proof-of-concept demonstrating the canonical pattern of using
 
 ## Quick Start
 
+### Prerequisites
+
+| Tool | Needed for |
+|---|---|
+| Docker (with Compose) | Both options |
+| Make | Running the `make` commands below |
+| Java 17+ and Maven | Option B only (Option A builds inside Docker) |
+| curl and jq | Optional, for the API demo script |
+
+### Clone
+
+```bash
+git clone https://github.com/justbixh/springboot4-redis-poc.git
+cd springboot4-redis-poc
+```
+
 ### Option A — Full Docker stack (recommended)
 
 ```bash
@@ -29,7 +45,7 @@ make run            # runs Spring Boot via mvn spring-boot:run
 
 Requires environment variables or defaults in `application.yml`:
 
-```
+```text
 MYSQL_HOST=localhost  MYSQL_PORT=3306  MYSQL_DB=redispoc
 MYSQL_USER=root       MYSQL_PASSWORD=secret
 REDIS_HOST=localhost  REDIS_PORT=6379
@@ -54,7 +70,7 @@ REDIS_HOST=localhost  REDIS_PORT=6379
 
 ## Architecture
 
-```
+```text
                             HTTP Client
                                  │
                                  ▼
@@ -89,8 +105,8 @@ REDIS_HOST=localhost  REDIS_PORT=6379
 
 ## Project Structure
 
-```
-spring-boot-redis-poc/
+```text
+springboot4-redis-poc/
 ├── Makefile
 ├── Dockerfile
 ├── docker-compose.yml
@@ -169,7 +185,7 @@ To clearly observe performance differences between cache hits, cache misses, and
 
 ## Makefile Reference
 
-```
+```text
 make help            Show this message
 make compile         Compile source files
 make test            Run all unit tests
@@ -209,7 +225,7 @@ Base URL: `http://localhost:8080/api/v1/products`
 
 ### Automated Curl Script & HTTP File
 
-You can run the full API demo script or copy individual commands from [`curl-commands.sh`](file:///Users/bishnu/projects/poc/spring-boot-redis-poc/curl-commands.sh):
+You can run the full API demo script or copy individual commands from [`curl-commands.sh`](./curl-commands.sh):
 
 ```bash
 make curl-demo
@@ -217,7 +233,7 @@ make curl-demo
 ./curl-commands.sh
 ```
 
-An IDE-friendly [`requests.http`](file:///Users/bishnu/projects/poc/spring-boot-redis-poc/requests.http) file is also provided for 1-click execution in IntelliJ IDEA or VS Code.
+An IDE-friendly [`requests.http`](./requests.http) file is also provided for 1-click execution in IntelliJ IDEA or VS Code.
 
 #### Summary of operations covered in the file:
 
